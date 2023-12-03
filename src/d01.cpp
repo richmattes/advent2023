@@ -20,9 +20,9 @@
 
 #include <fstream>
 #include <iostream>
-#include <unordered_map>
 #include <regex>
 #include <string>
+#include <unordered_map>
 
 namespace advent {
 
@@ -40,26 +40,24 @@ int string_to_value(const std::string& input)
     }
 }
 
-int get_calibration_value(const std::string& input, bool use_alnum_numbers = false) {
-    std::string match_string = use_alnum_numbers ? "(?=(one|two|three|four|five|six|seven|eight|nine|\\d))" : "(\\d)"; 
-    std::regex re(match_string, std::regex_constants::ECMAScript);
-    auto begin = std::sregex_iterator(std::begin(input), std::end(input), re);
+int get_calibration_value(const std::string& input, bool find_alpha_numbers = false) {
+    const std::string match_string = find_alpha_numbers ? "(?=(one|two|three|four|five|six|seven|eight|nine|\\d))" : "(\\d)"; 
+    const std::regex re(match_string, std::regex_constants::ECMAScript);
+    const auto begin = std::sregex_iterator(std::begin(input), std::end(input), re);
     auto end = begin;
     while (std::next(end) != std::sregex_iterator()) {
         ++end;
     }
 
-    int first_digit = string_to_value((*begin).str(1));
-    int last_digit = string_to_value((*end).str(1));
+    const int first_digit = string_to_value((*begin).str(1));
+    const int last_digit = string_to_value((*end).str(1));
 
-    auto result = first_digit * 10 + last_digit;
-
-    return result;
+    return first_digit * 10 + last_digit;
 }
 
-int compute_total(bool find_alnum_numbers = false)
+int compute_total(bool find_alpha_numbers = false)
 {
-    auto input_file_path = fmt::format("{}/{}", get_data_path(), "d01.txt");
+    const auto input_file_path = fmt::format("{}/{}", get_data_path(), "d01.txt");
 
     auto input_file = std::ifstream(input_file_path);
 
@@ -67,14 +65,14 @@ int compute_total(bool find_alnum_numbers = false)
     int total = 0;
     while (input_file.peek() != EOF) {
         std::getline(input_file, line);
-        total += get_calibration_value(line, find_alnum_numbers);
+        total += get_calibration_value(line, find_alpha_numbers);
     }
 
     return total;
 }
 };
 
-int main (int argc, char **argv)
+int main (int /*argc*/, char** /*argv*/)
 {
     std::cout << "Total: " << advent::compute_total() << std::endl;
     std::cout << "Total 2: " << advent::compute_total(true) << std::endl;
