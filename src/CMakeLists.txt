@@ -4,6 +4,7 @@ find_package(fmt REQUIRED)
 set(SRCS
   d01
   d02
+  d03
 )
 
 foreach(EXE ${SRCS})
@@ -12,7 +13,7 @@ foreach(EXE ${SRCS})
     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
   )
-  target_compile_features(${EXE} PRIVATE cxx_std_20)
+  target_compile_features(${EXE} PRIVATE cxx_std_23)
   target_compile_options(${EXE} PRIVATE -Wall -Wextra)
   target_link_libraries(${EXE} PRIVATE fmt::fmt absl::strings)
 endforeach()
