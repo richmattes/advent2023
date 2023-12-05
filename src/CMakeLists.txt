@@ -5,6 +5,7 @@ set(SRCS
   d01
   d02
   d03
+  d04
 )
 
 foreach(EXE ${SRCS})

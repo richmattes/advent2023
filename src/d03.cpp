@@ -21,7 +21,6 @@
 #include <fstream>
 #include <iostream>
 #include <ranges>
-#include <tuple>
 #include <vector>
 
 namespace advent {
@@ -139,9 +138,10 @@ int total_gear_ratios(const schematic& schematic)
             (i+1) < schematic.size() ? &schematic[i+1] : &blank_row,
             i > 0 ? &schematic[i-1] : &blank_row
         };
-        int count = 0;
-        int product = 1;
+
         for (const auto & symbol : schematic[i].second) {
+            int count = 0;
+            int product = 1;
             if (symbol.type != '*') { continue; }
             for (const auto& adjacent_row : adjacent_rows){
                 for(auto& part : adjacent_row->first) {
@@ -155,7 +155,6 @@ int total_gear_ratios(const schematic& schematic)
             if (count == 2) {
                 total += product;
             }
-            count = 0; product = 1;
         }
     }
     return total;
